@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useEffect, useState} from 'react';
 
 import {
@@ -19,7 +12,6 @@ import {
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import {ProductsModel} from './model/ProductsModel';
 import Product from './components/Product';
-import {ProductModel} from './model/ProductModel';
 
 function App(): JSX.Element {
   const [data, setData] = useState<ProductsModel | null>(null);
@@ -60,7 +52,7 @@ function App(): JSX.Element {
         ) : (
           <FlatList
             data={data?.products}
-            renderItem={items => Product(items.item)}
+            renderItem={items => <Product data={items} />}
             keyExtractor={(item, _) => item.id.toString()}
           />
         )}
