@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StatusBar,
   Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
@@ -28,7 +29,25 @@ function App(): JSX.Element {
     };
 
     fetchData();
-  }, [data]);
+  }, []);
+
+  const [search, setSearch] = useState<string>('');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetch(
+          `https://dummyjson.com/products/search?q=${search}`,
+        );
+        const json = (await result.json()) as ProductsModel;
+        console.log(json);
+        setData(json);
+      } catch (e) {
+        setData(null);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -43,6 +62,10 @@ function App(): JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <Header />
+      <View style={{flexDirection: 'row'}}>
+        <Text style={{fontSize: 16, padding: 8}}>Search here: </Text>
+        <TextInput value={search} onChangeText={setSearch}></TextInput>
+      </View>
       <View
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
