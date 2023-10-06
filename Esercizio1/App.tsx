@@ -4,6 +4,7 @@ import {
   FlatList,
   SafeAreaView,
   StatusBar,
+  StyleSheet,
   Text,
   TextInput,
   useColorScheme,
@@ -62,9 +63,15 @@ function App(): JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <Header />
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{fontSize: 16, padding: 8}}>Search here: </Text>
-        <TextInput value={search} onChangeText={setSearch}></TextInput>
+      <View style={styles.sectionSearch}>
+        <Text style={{fontSize: 16, padding: 16, fontWeight: 'bold'}}>
+          Search here:
+        </Text>
+        <TextInput
+          style={styles.sectionSearchInput}
+          value={search}
+          onChangeText={setSearch}
+        />
       </View>
       <View
         style={{
@@ -83,5 +90,21 @@ function App(): JSX.Element {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  sectionSearch: {
+    flexDirection: 'row',
+    padding: 16,
+    backgroundColor: '#000',
+    borderWidth: 5,
+    borderTopLeftRadius: 20,
+  },
+  sectionSearchInput: {
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: '#aaa',
+    width: '76%',
+  },
+});
 
 export default App;
