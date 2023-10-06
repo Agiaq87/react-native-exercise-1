@@ -7,12 +7,20 @@ export type ProductProps = {
 };
 
 const Product = ({data}: ProductProps) => {
-  console.log(`LEGGI QUI -> ${data}`);
+  console.log(`LEGGI QUI -> ${data?.item.img}`);
   return data ? (
-    <View>
-      <Image style={styles.sectionImage} source={{uri: data?.item.img[0]}} />
+    <View style={styles.sectionContainer}>
+      {data?.item.img !== undefined ? (
+        <Image style={styles.sectionImage} source={{uri: data?.item.img[0]}} />
+      ) : (
+        <Text>Unavailable image</Text>
+      )}
       <Text style={styles.sectionTitle}>{data?.item.title}</Text>
       <Text style={styles.sectionDescription}>{data?.item.description}</Text>
+      <View style={styles.sectionPriceContainer}>
+        <Text style={styles.sectionPrice}>Price: {data?.item.price}€</Text>
+        <Text style={styles.sectionPrice}>Rating: {data?.item.rating}</Text>
+      </View>
     </View>
   ) : (
     <View>
@@ -35,6 +43,21 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
+  },
+  sectionContainer: {
+    margin: 16,
+    padding: 16,
+    borderWidth: 5,
+    backgroundColor: 'grey',
+    borderRadius: 20,
+  },
+  sectionPriceContainer: {
+    flexDirection: 'row',
+  },
+  sectionPrice: {
+    fontSize: 18,
+    padding: 16,
+    fontWeight: 'bold',
   },
 });
 
