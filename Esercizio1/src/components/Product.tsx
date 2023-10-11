@@ -5,27 +5,25 @@ import {Row} from './Row';
 import {Col} from './Col';
 
 export type ProductProps = {
-  data?: ListRenderItemInfo<ProductModel> | undefined;
+  data?: ProductModel;
 };
 
 const Product = ({data}: ProductProps) => {
-  console.log(`LEGGI QUI -> ${data?.item.images}`);
+  console.log(`LEGGI QUI -> ${data?.images}`);
   return data ? (
     <View style={styles.sectionContainer}>
       <Row>
-        <Text style={styles.sectionTitle}>
-          {data?.item.title.length < 30
-            ? data?.item.title
-            : `${data?.item.title.substring(0, 30)}...`}
+        <Text style={styles.sectionTitle} numberOfLines={1}>
+          {data?.title}
         </Text>
-        <Text style={styles.sectionPrice}>{data?.item.price}€</Text>
+        <Text style={styles.sectionPrice}>{data?.price}€</Text>
       </Row>
       <Row>
         <Col numRows={2}>
-          {data?.item.images !== undefined ? (
+          {data?.images !== undefined ? (
             <Image
               style={styles.sectionImage}
-              source={{uri: data?.item.images[0]}}
+              source={{uri: data?.images[0]}}
             />
           ) : (
             <Text>Unavailable image</Text>
@@ -33,9 +31,9 @@ const Product = ({data}: ProductProps) => {
         </Col>
         <Col numRows={2}>
           <Text style={styles.sectionDescription}>
-            {data?.item.description}
+            {data?.description}
           </Text>
-          <Text style={styles.sectionRating}>Rating: {data?.item.rating}</Text>
+          <Text style={styles.sectionRating}>Rating: {data?.rating}</Text>
         </Col>
       </Row>
 

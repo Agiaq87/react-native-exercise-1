@@ -31,17 +31,23 @@ export const margin = StyleSheet.create({
 });
 
 export const fontSize = StyleSheet.create({
-  larger: {
+  title: {
     fontSize: 32,
   },
-  large: {
-    fontSize: 24,
+  subTitle: {
+    fontSize: 28,
   },
-  medium: {
+  larger: {
+    fontSize: 20,
+  },
+  large: {
     fontSize: 16,
   },
+  medium: {
+    fontSize: 14,
+  },
   low: {
-    fontSize: 8,
+    fontSize: 12,
   },
 });
 
@@ -90,6 +96,114 @@ export const fontWeight = StyleSheet.create({
   },
   bold: {
     fontWeight: 'bold',
+  },
+});
+
+export const textAlign = StyleSheet.create({
+  left: {
+    textAlign: 'left',
+  },
+  center: {
+    textAlign: 'center',
+  },
+  right: {
+    textAlign: 'right',
+  },
+  justify: {
+    textAlign: 'justify',
+  },
+});
+
+export const color = StyleSheet.create({
+  primary: {
+    backgroundColor: '#555',
+  },
+  secondary: {
+    backgroundColor: '#777',
+  },
+  tertiary: {
+    backgroundColor: '#999',
+  },
+  onPrimary: {
+    color: '#ddd',
+  },
+  onSecondary: {
+    color: '#ccc',
+  },
+  onTertiary: {
+    color: '#fff',
+  },
+});
+
+export const height = StyleSheet.create({
+  auto: {
+    height: 'auto',
+  },
+  full: {
+    height: 100,
+  },
+  large: {
+    height: 75,
+  },
+  medium: {
+    height: 50,
+  },
+  low: {
+    height: 25,
+  },
+  little: {
+    height: 15,
+  },
+});
+
+export const width = StyleSheet.create({
+  auto: {
+    width: 'auto',
+  },
+  full: {
+    width: 100,
+  },
+  large: {
+    width: 75,
+  },
+  medium: {
+    width: 50,
+  },
+  low: {
+    width: 25,
+  },
+  little: {
+    width: 15,
+  },
+});
+
+export const justifyContent = StyleSheet.create({
+  flexStart: {
+    justifyContent: 'flex-start',
+  },
+  flexEnd: {
+    justifyContent: 'flex-end',
+  },
+  center: {
+    justifyContent: 'center',
+  },
+  spaceBetween: {
+    justifyContent: 'space-between',
+  },
+  spaceAround: {
+    justifyContent: 'space-around',
+  },
+  spaceEvenly: {
+    justifyContent: 'space-evenly',
+  },
+});
+
+export const flexDirection = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+  },
+  column: {
+    flexDirection: 'column',
   },
 });
 

@@ -5,9 +5,9 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   View,
   useColorScheme,
-  TouchableOpacity,
 } from 'react-native';
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import Product from '../components/Product';
@@ -15,23 +15,10 @@ import {ProductsModel} from '../model/ProductsModel';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types';
 
-type Props = StackScreenProps<RootStackParamList, 'Home'>;
+type Props = StackScreenProps<RootStackParamList, 'Search'>;
 
-export function HomePage({navigation}: Props) {
+export function SearchPage({navigation}: Props) {
   const [data, setData] = useState<ProductsModel | null>(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await fetch('https://dummyjson.com/products');
-        const json = (await result.json()) as ProductsModel;
-        setData(json);
-      } catch (e) {
-        setData(null);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const [search, setSearch] = useState<string>('');
   useEffect(() => {
@@ -48,7 +35,7 @@ export function HomePage({navigation}: Props) {
     };
 
     fetchData();
-  }, []);
+  }, [search]);
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -56,7 +43,7 @@ export function HomePage({navigation}: Props) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const goToSearch = () => navigation.navigate('Search');
+  //const goToHome = () => navigation.push('Home');
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -66,11 +53,14 @@ export function HomePage({navigation}: Props) {
       />
       <Header />
       <View style={styles.sectionSearch}>
-        <TouchableOpacity onPress={goToSearch}>
-          <Text style={{fontSize: 16, padding: 16, fontWeight: 'bold'}}>
-            Go to Search
-          </Text>
-        </TouchableOpacity>
+        <Text style={{fontSize: 16, padding: 16, fontWeight: 'bold'}}>
+          Search here:
+        </Text>
+        <TextInput
+          style={styles.sectionSearchInput}
+          value={search}
+          onChangeText={setSearch}
+        />
       </View>
       <View
         style={{
@@ -81,12 +71,7 @@ export function HomePage({navigation}: Props) {
         ) : (
           <FlatList
             data={data?.products}
-            renderItem={items => (
-              <TouchableOpacity
-                onPress={navigation.navigate('ProductDetails', {id: items.id})}>
-                <Product data={items} />
-              </TouchableOpacity>
-            )}
+            renderItem={items => <Product data={items} />}
             keyExtractor={(item, _) => item.id.toString()}
           />
         )}

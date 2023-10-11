@@ -5,20 +5,41 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TextInput,
   View,
   useColorScheme,
+  TouchableOpacity,
 } from 'react-native';
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import Product from '../components/Product';
 import {ProductsModel} from '../model/ProductsModel';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types';
+import {
+  borderRadius,
+  borderWidth,
+  color,
+  fontSize,
+  fontWeight,
+  padding,
+} from '../styles/mainStyles';
 
-type Props = StackScreenProps<RootStackParamList, 'Search'>;
+type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
-export function SearchPage({navigation}: Props) {
+export function HomePage({navigation}: Props) {
   const [data, setData] = useState<ProductsModel | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetch('https://dummyjson.com/products');
+        const json = (await result.json()) as ProductsModel;
+        setData(json);
+      } catch (e) {
+        setData(null);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [search, setSearch] = useState<string>('');
   useEffect(() => {
@@ -28,7 +49,6 @@ export function SearchPage({navigation}: Props) {
           `https://dummyjson.com/products/search?q=${search}`,
         );
         const json = (await result.json()) as ProductsModel;
-        console.log(json);
         setData(json);
       } catch (e) {
         setData(null);
@@ -36,7 +56,7 @@ export function SearchPage({navigation}: Props) {
     };
 
     fetchData();
-  }, [search]);
+  }, []);
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -44,7 +64,7 @@ export function SearchPage({navigation}: Props) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  //const goToHome = () => navigation.push('Home');
+  const goToSearch = () => navigation.navigate('Search');
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -54,14 +74,20 @@ export function SearchPage({navigation}: Props) {
       />
       <Header />
       <View style={styles.sectionSearch}>
-        <Text style={{fontSize: 16, padding: 16, fontWeight: 'bold'}}>
-          Search here:
-        </Text>
-        <TextInput
-          style={styles.sectionSearchInput}
-          value={search}
-          onChangeText={setSearch}
-        />
+        <TouchableOpacity onPress={goToSearch}>
+          <Text
+            style={[
+              fontSize.large,
+              fontWeight.large,
+              padding.medium,
+              color.tertiary,
+              color.onTertiary,
+              borderWidth.low,
+              borderRadius.medium,
+            ]}>
+            Go to Search
+          </Text>
+        </TouchableOpacity>
       </View>
       <View
         style={{
@@ -72,7 +98,14 @@ export function SearchPage({navigation}: Props) {
         ) : (
           <FlatList
             data={data?.products}
-            renderItem={items => <Product data={items} />}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ProductDetails', {id: item.id})
+                }>
+                <Product data={item} />
+              </TouchableOpacity>
+            )}
             keyExtractor={(item, _) => item.id.toString()}
           />
         )}
