@@ -8,5 +8,5 @@ export type ProductModel = {
   stock: number;
   category: string;
   thumbnail: string;
-  img: Array<string>;
+  images: Array<string> | undefined;
 };

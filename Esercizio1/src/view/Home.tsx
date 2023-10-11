@@ -5,7 +5,6 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TextInput,
   View,
   useColorScheme,
   TouchableOpacity,
@@ -13,7 +12,6 @@ import {
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import Product from '../components/Product';
 import {ProductsModel} from '../model/ProductsModel';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types';
 
@@ -26,7 +24,6 @@ export function HomePage({navigation}: Props) {
       try {
         const result = await fetch('https://dummyjson.com/products');
         const json = (await result.json()) as ProductsModel;
-        console.log(json);
         setData(json);
       } catch (e) {
         setData(null);
@@ -44,7 +41,6 @@ export function HomePage({navigation}: Props) {
           `https://dummyjson.com/products/search?q=${search}`,
         );
         const json = (await result.json()) as ProductsModel;
-        console.log(json);
         setData(json);
       } catch (e) {
         setData(null);
@@ -85,7 +81,12 @@ export function HomePage({navigation}: Props) {
         ) : (
           <FlatList
             data={data?.products}
-            renderItem={items => <Product data={items} />}
+            renderItem={items => (
+              <TouchableOpacity
+                onPress={navigation.navigate('ProductDetails', {id: items.id})}>
+                <Product data={items} />
+              </TouchableOpacity>
+            )}
             keyExtractor={(item, _) => item.id.toString()}
           />
         )}
