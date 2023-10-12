@@ -13,6 +13,8 @@ import {
 } from '../styles/mainStyles';
 import {RootStackParamList} from '../../types';
 import {Row} from '../components/Row';
+import {useCartDispatchHook, useCartStateHook} from '../hooks/useReducerCart';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 type ProductDetailsProps = StackScreenProps<
   RootStackParamList,
@@ -22,9 +24,12 @@ type ProductDetailsProps = StackScreenProps<
 export function ProductDetailsPage({route}: ProductDetailsProps) {
   const id = route.params?.id;
 
-  console.log(id);
+  const cartState = useCartStateHook();
+  const dispatch = useCartDispatchHook();
 
   const [data, setData] = useState<ProductModel | null>(null);
+
+  const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,6 +80,35 @@ export function ProductDetailsPage({route}: ProductDetailsProps) {
           <Text style={[color.onPrimary, fontSize.medium, fontWeight.medium]}>
             Rating: {data.rating}
           </Text>
+          <TouchableOpacity
+            style={{
+              padding: 16,
+              alignSelf: 'center',
+            }}
+            onPress={() => {
+              const find = cartState(data.id);
+              if (find) {
+                if (dispatch) {
+                  dispatch({
+                    type: find ? 'remove' : 'add',
+                    id: find.toString(),
+                  });
+                  setAddedToCart(find ? true : false);
+                }
+              }
+            }}>
+            <Text
+              style={{
+                fontSize: 18,
+                borderWidth: 2,
+                borderColor: '#fff',
+                borderRadius: 25,
+                padding: 16,
+                fontWeight: 'bold',
+              }}>
+              {addedToCart ? 'Rimuovi dal carrello' : 'Aggiungi al carrello'}
+            </Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <Text

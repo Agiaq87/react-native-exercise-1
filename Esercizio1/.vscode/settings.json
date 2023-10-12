@@ -1,3 +1,30 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "files.associations": {
+        "*.ts": "typescript",
+        "*.tsx": "typescriptreact"
+      },
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+      "editor.formatOnSave": true,
+      "eslint.validate": [
+        "javascript",
+        "typescript",
+        "typescriptreact"
+      ],
+      "[javascript]": {
+        "editor.formatOnSave": true
+      },
+      "[javascriptreact]": {
+        "editor.formatOnSave": true
+      },
+      "[typescript]": {
+        "editor.formatOnSave": true
+      },
+      "[typescriptreact]": {
+        "editor.formatOnSave": true
+      },
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      }
 }

@@ -7,21 +7,12 @@ import {
   Text,
   View,
   useColorScheme,
-  TouchableOpacity,
 } from 'react-native';
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import Product from '../components/Product';
 import {ProductsModel} from '../model/ProductsModel';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types';
-import {
-  borderRadius,
-  borderWidth,
-  color,
-  fontSize,
-  fontWeight,
-  padding,
-} from '../styles/mainStyles';
 
 type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
@@ -31,23 +22,6 @@ export function HomePage({navigation}: Props) {
     const fetchData = async () => {
       try {
         const result = await fetch('https://dummyjson.com/products');
-        const json = (await result.json()) as ProductsModel;
-        setData(json);
-      } catch (e) {
-        setData(null);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const [search, setSearch] = useState<string>('');
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await fetch(
-          `https://dummyjson.com/products/search?q=${search}`,
-        );
         const json = (await result.json()) as ProductsModel;
         setData(json);
       } catch (e) {
@@ -71,13 +45,14 @@ export function HomePage({navigation}: Props) {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <Header />
-      
       <View
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
         {data === null ? (
-          <Text>Loading...</Text>
+          <Text style={{color: '#000', fontSize: 18, padding: 16}}>
+            Loading...
+          </Text>
         ) : (
           <FlatList
             data={data?.products}

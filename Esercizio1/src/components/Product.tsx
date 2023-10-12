@@ -1,6 +1,6 @@
 import React from 'react';
 import {ProductModel} from '../model/ProductModel';
-import {Image, ListRenderItemInfo, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {Row} from './Row';
 import {Col} from './Col';
 
@@ -9,7 +9,6 @@ export type ProductProps = {
 };
 
 const Product = ({data}: ProductProps) => {
-  console.log(`LEGGI QUI -> ${data?.images}`);
   return data ? (
     <View style={styles.sectionContainer}>
       <Row>
@@ -30,15 +29,13 @@ const Product = ({data}: ProductProps) => {
           )}
         </Col>
         <Col numRows={2}>
-          <Text style={styles.sectionDescription}>
-            {data?.description}
-          </Text>
+          <Text style={styles.sectionDescription}>{data?.description}</Text>
           <Text style={styles.sectionRating}>Rating: {data?.rating}</Text>
         </Col>
       </Row>
 
       <View>
-        <View style={styles.sectionPriceContainer}></View>
+        <View style={styles.sectionPriceContainer} />
       </View>
     </View>
   ) : (

@@ -1,6 +1,5 @@
 import React, {createContext, useState} from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -23,7 +22,6 @@ const initialState: State = {count: 0};
 
 // 4 Definizione reducer
 function reducer(oldState: State, action: Action) {
-  console.log('LEGGI QUI', action);
   switch (action.type) {
     case 'increment':
       return {count: oldState.count + 1};

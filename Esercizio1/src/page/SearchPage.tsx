@@ -22,6 +22,7 @@ export function SearchPage({navigation}: Props) {
   const [data, setData] = useState<ProductsModel | null>(null);
 
   const [search, setSearch] = useState<string>('');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,8 +45,6 @@ export function SearchPage({navigation}: Props) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  //const goToHome = () => navigation.push('Home');
-
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -60,7 +59,9 @@ export function SearchPage({navigation}: Props) {
         <TextInput
           style={styles.sectionSearchInput}
           value={search}
-          onChangeText={setSearch}
+          onChangeText={text => {
+            setSearch(text);
+          }}
         />
       </View>
       <View
@@ -68,20 +69,40 @@ export function SearchPage({navigation}: Props) {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
         {data === null ? (
-          <Text>Loading...</Text>
-        ) : (
+          <Text
+            style={{
+              color: '#fff',
+              alignSelf: 'center',
+              fontSize: 18,
+              padding: 16,
+            }}>
+            Searching...
+          </Text>
+        ) : data.products.length ? (
           <FlatList
             data={data?.products}
             renderItem={({item}) => {
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ProductDetails', {id: item.id})
-                }>
-                <Product data={item} />
-              </TouchableOpacity>
+              return (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('ProductDetails', {id: item.id})
+                  }>
+                  <Product data={item} />
+                </TouchableOpacity>
+              );
             }}
             keyExtractor={(item, _) => item.id.toString()}
           />
+        ) : (
+          <Text
+            style={{
+              color: '#fff',
+              alignSelf: 'center',
+              fontSize: 18,
+              padding: 16,
+            }}>
+            Not found
+          </Text>
         )}
       </View>
     </SafeAreaView>
