@@ -29,7 +29,7 @@ export function ProductDetailsPage({route}: ProductDetailsProps) {
 
   const [data, setData] = useState<ProductModel | null>(null);
 
-  const [addedToCart, setAddedToCart] = useState(false);
+  const [handleMulticlick, setHandleMultiClick] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +44,8 @@ export function ProductDetailsPage({route}: ProductDetailsProps) {
 
     fetchData();
   }, [id]);
+
+  const addedToCart = cartState.ids.includes(`${id}`);
 
   return (
     <View style={[styles.container, color.primary]}>
@@ -86,16 +88,13 @@ export function ProductDetailsPage({route}: ProductDetailsProps) {
               alignSelf: 'center',
             }}
             onPress={() => {
-              const find = cartState(data.id);
-              if (find) {
-                if (dispatch) {
-                  dispatch({
-                    type: find ? 'remove' : 'add',
-                    id: find.toString(),
-                  });
-                  setAddedToCart(find ? true : false);
-                }
+              if (handleMulticlick) {
+                dispatch({
+                  type: addedToCart ? 'remove' : 'add',
+                  id: `${id}`,
+                });
               }
+              setHandleMultiClick(!handleMulticlick);
             }}>
             <Text
               style={{

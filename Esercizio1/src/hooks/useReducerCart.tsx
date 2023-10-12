@@ -1,35 +1,52 @@
-import React, {createContext, useCallback} from 'react';
+import React, {createContext} from 'react';
 
 type State = {
-  count: number;
   ids: Array<string>;
 };
 
 type Action = {
   type: 'add' | 'remove' | 'reset';
-} & Record<string, string>; // Se passo un dato, sara per forza un id, tranne che per il reset
+  id: string;
+}; // Se passo un dato, sara per forza un id, tranne che per il reset
 
-const initialCartState: State = {count: 0, ids: []};
+const initialCartState: State = {ids: []};
 
-function reducer(oldState: State, action: Action) {
+function cartReducer(oldState: State, action: Action) {
   console.log('CART OLD STATE ', oldState, 'CARTS ACTION REDUCER', action);
+  let returnedValue;
   switch (action.type) {
-    case 'add':
-      return {count: oldState.count + 1, ids: [action.id, ...oldState.ids]};
-    case 'remove':
-      return {
-        count: oldState.count - 1,
-        ids: oldState.ids.splice(oldState.ids.indexOf(action.id), 1),
+    case 'add': {
+      returnedValue = {
+        ids: oldState.ids.includes(action.id)
+          ? oldState.ids
+          : [action.id, ...oldState.ids],
       };
-    case 'reset':
-      return {
-        count: 0,
-        ids: (oldState.ids.length = 0),
+      break;
+    }
+    case 'remove': {
+      oldState.ids.includes(action.id)
+        ? (returnedValue = {
+            ids: [...oldState.ids.filter(e => e !== action.id)],
+          })
+        : (returnedValue = {
+            ids: oldState.ids,
+          });
+      break;
+    }
+    case 'reset': {
+      returnedValue = {
+        ids: [],
       };
+      break;
+    }
+
     default: {
-      return {count: oldState.count};
+      throw new Error('Undefined action');
     }
   }
+
+  console.log(returnedValue);
+  return returnedValue;
 }
 
 const CartContext = createContext<State | null>(null);
@@ -63,7 +80,7 @@ export type CartProviderProps = {
 };
 
 export function CartProvider({children}: CartProviderProps) {
-  const [state, dispatch] = React.useReducer(reducer, initialCartState);
+  const [state, dispatch] = React.useReducer(cartReducer, initialCartState);
 
   return (
     <CartContext.Provider value={state}>
@@ -74,14 +91,8 @@ export function CartProvider({children}: CartProviderProps) {
   );
 }
 
-export function useCartStateHook(): (id: string) => string | undefined {
-  const state = useCartState();
-
-  const search = useCallback((id: string): string | undefined => {
-    return state.ids.find(e => e === id);
-  }, []);
-
-  return search;
+export function useCartStateHook(): State {
+  return useCartState();
 }
 
 export function useCartDispatchHook() {

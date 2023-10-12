@@ -7,6 +7,7 @@ import {HomePage} from './src/page/HomePage';
 import {ProductDetailsPage} from './src/page/ProductDetailsPage';
 import {SearchPage} from './src/page/SearchPage';
 import {CartProvider} from './src/hooks/useReducerCart';
+import {CartPage} from './src/page/CartPage';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +18,7 @@ function App(): JSX.Element {
         <Tab.Navigator>
           <Tab.Screen name="Home" component={HomePage as any} />
           <Tab.Screen name="Search" component={SearchStack as any} />
+          <Tab.Screen name="Cart" component={CartStack as any} />
           <Tab.Screen name="Counter" component={CounterPage as any} />
         </Tab.Navigator>
       </NavigationContainer>
@@ -41,6 +43,20 @@ export function SearchStack() {
         component={ProductDetailsPage as any}
       />
     </Search.Navigator>
+  );
+}
+
+const CartNavigator = createStackNavigator();
+
+export function CartStack() {
+  return (
+    <CartNavigator.Navigator>
+      <CartNavigator.Screen name="Cart" component={CartPage as any} />
+      <CartNavigator.Screen
+        name="ProductDetails"
+        component={ProductDetailsPage as any}
+      />
+    </CartNavigator.Navigator>
   );
 }
 
