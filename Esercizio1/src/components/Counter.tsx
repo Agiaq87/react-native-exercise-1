@@ -10,6 +10,7 @@ import {
   textAlign,
   width,
 } from '../styles/mainStyles';
+import {UseReducerCounter} from './useReducerCounter';
 
 export function Counter(): JSX.Element {
   const counterState = useCounter();
@@ -29,6 +30,9 @@ export function Counter(): JSX.Element {
         {counterState.count}
       </Text>
       <Button onPress={counterState.onDecrement} title="-" />
+      <View>
+        <UseReducerCounter />
+      </View>
     </View>
   );
 }

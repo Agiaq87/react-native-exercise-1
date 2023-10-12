@@ -64,8 +64,6 @@ export function HomePage({navigation}: Props) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const goToSearch = () => navigation.navigate('Search');
-
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -73,22 +71,7 @@ export function HomePage({navigation}: Props) {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <Header />
-      <View style={styles.sectionSearch}>
-        <TouchableOpacity onPress={goToSearch}>
-          <Text
-            style={[
-              fontSize.large,
-              fontWeight.large,
-              padding.medium,
-              color.tertiary,
-              color.onTertiary,
-              borderWidth.low,
-              borderRadius.medium,
-            ]}>
-            Go to Search
-          </Text>
-        </TouchableOpacity>
-      </View>
+      
       <View
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -98,14 +81,7 @@ export function HomePage({navigation}: Props) {
         ) : (
           <FlatList
             data={data?.products}
-            renderItem={({item}) => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ProductDetails', {id: item.id})
-                }>
-                <Product data={item} />
-              </TouchableOpacity>
-            )}
+            renderItem={({item}) => <Product data={item} />}
             keyExtractor={(item, _) => item.id.toString()}
           />
         )}

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
   useColorScheme,
 } from 'react-native';
@@ -71,7 +72,14 @@ export function SearchPage({navigation}: Props) {
         ) : (
           <FlatList
             data={data?.products}
-            renderItem={items => <Product data={items} />}
+            renderItem={({item}) => {
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ProductDetails', {id: item.id})
+                }>
+                <Product data={item} />
+              </TouchableOpacity>
+            }}
             keyExtractor={(item, _) => item.id.toString()}
           />
         )}
